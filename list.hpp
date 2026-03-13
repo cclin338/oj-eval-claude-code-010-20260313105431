@@ -88,6 +88,13 @@ public:
          * iter++
          */
         iterator operator++(int) {
+            if (ptr == nullptr || ptr->next == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            // Check if we're at end(), can't go forward from there
+            if (ptr == list_ptr->tail) {
+                throw invalid_iterator();
+            }
             iterator tmp = *this;
             ptr = ptr->next;
             return tmp;
@@ -97,6 +104,13 @@ public:
          * ++iter
          */
         iterator & operator++() {
+            if (ptr == nullptr || ptr->next == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            // Check if we're at end(), can't go forward from there
+            if (ptr == list_ptr->tail) {
+                throw invalid_iterator();
+            }
             ptr = ptr->next;
             return *this;
         }
@@ -105,6 +119,13 @@ public:
          * iter--
          */
         iterator operator--(int) {
+            if (ptr == nullptr || ptr->prev == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            // Check if we're at begin(), can't go back from there
+            if (ptr == list_ptr->head->next) {
+                throw invalid_iterator();
+            }
             iterator tmp = *this;
             ptr = ptr->prev;
             return tmp;
@@ -114,6 +135,13 @@ public:
          * --iter
          */
         iterator & operator--() {
+            if (ptr == nullptr || ptr->prev == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            // Check if we're at begin(), can't go back from there
+            if (ptr == list_ptr->head->next) {
+                throw invalid_iterator();
+            }
             ptr = ptr->prev;
             return *this;
         }
@@ -180,23 +208,47 @@ public:
         const_iterator(const iterator &it) : ptr(it.ptr), list_ptr(it.list_ptr) {}
 
         const_iterator operator++(int) {
+            if (ptr == nullptr || ptr->next == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            if (ptr == list_ptr->tail) {
+                throw invalid_iterator();
+            }
             const_iterator tmp = *this;
             ptr = ptr->next;
             return tmp;
         }
 
         const_iterator & operator++() {
+            if (ptr == nullptr || ptr->next == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            if (ptr == list_ptr->tail) {
+                throw invalid_iterator();
+            }
             ptr = ptr->next;
             return *this;
         }
 
         const_iterator operator--(int) {
+            if (ptr == nullptr || ptr->prev == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            if (ptr == list_ptr->head->next) {
+                throw invalid_iterator();
+            }
             const_iterator tmp = *this;
             ptr = ptr->prev;
             return tmp;
         }
 
         const_iterator & operator--() {
+            if (ptr == nullptr || ptr->prev == nullptr || list_ptr == nullptr) {
+                throw invalid_iterator();
+            }
+            if (ptr == list_ptr->head->next) {
+                throw invalid_iterator();
+            }
             ptr = ptr->prev;
             return *this;
         }
